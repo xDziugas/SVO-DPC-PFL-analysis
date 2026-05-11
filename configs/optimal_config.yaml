@@ -1,0 +1,165 @@
+############################
+##### Basic parameters #####
+############################
+
+# Automatic initialisation
+automatic_reinitialization: True
+
+# Pipeline type
+pipeline_is_stereo: False
+
+# Feature and keyframe number
+max_fts: 300
+max_map_fts: 300
+max_n_kfs: 14
+quality_min_fts: 5
+
+# Map scale when initialized (not used for stereo)
+# Increase if the initial scene depth is larger
+map_scale: 47.5
+
+use_global_map: False
+
+# Initial rotation
+T_world_imuinit/qx: 0.0035622019159513617
+T_world_imuinit/qy: -0.011363129110865712
+T_world_imuinit/qz: 0.33710546776135597
+T_world_imuinit/qw: 0.9413915729491725
+
+# Keyframe selection
+kfselect_criterion: DOWNLOOKING
+kfselect_numkfs_upper_thresh: 200
+kfselect_numkfs_lower_thresh: 70
+kfselect_min_dist_metric: 0.65
+kfselect_min_angle: 1.0
+kfselect_min_disparity: 0.5
+update_seeds_with_old_keyframes: True
+
+img_align_est_illumination_gain: false
+img_align_est_illumination_offset: false
+depth_filter_affine_est_offset: false
+depth_filter_affine_est_gain: false
+reprojector_affine_est_offset: false
+reprojector_affine_est_gain: false
+
+########################################
+###### Tuning for each module ##########
+########################################
+init_min_features: 30
+init_min_disparity: 2
+
+# Feature Detection
+grid_size: 25
+n_pyr_levels: 4 
+detector_threshold_primary: 8
+detector_threshold_secondary: 200
+detector_threshold_shitomasi: 70
+
+# Image Alignment
+img_align_max_level: 5
+img_align_min_level: 2
+
+# Reprojection
+use_async_reprojectors: False
+reprojector_max_n_kfs: 5
+scan_epi_unit_sphere: False
+reproject_unconverged_seeds: True
+max_unconverged_seeds_ratio: 0.4
+
+# Pose Optimization
+poseoptim_thresh: 2.0
+poseoptim_using_unit_sphere: False
+
+# Depth Filter
+seed_convergence_sigma2_thresh: 200
+mappoint_convergence_sigma2_thresh: 400
+
+relocalization_max_trials: 5
+
+# IMU
+use_imu: true
+poseoptim_prior_lambda: 0.01 # Gyroscope prior in pose optimization
+img_align_prior_lambda_rot: 0.0 # Gyroscope prior in sparse image alignment
+img_align_prior_lambda_trans: 0.0 # Constant velocity assumption prior in sparse image alignment
+
+# Dense input
+publish_every_nth_dense_input: 5
+
+# Visualization
+publish_marker_scale: 0.5
+publish_active_kfs: True
+
+# Stereo parameters, not used for mono.
+max_depth_inv: 0.05
+min_depth_inv: 5.0
+mean_depth_inv: 0.8
+
+##############################
+##### Backend parameters #####
+##############################
+use_ceres_backend: false
+ceres_verbose: false
+ceres_marginalize: true
+ceres_num_iterations: 2
+ceres_num_imu_frames: 3
+ceres_max_iteration_time: -1 # soft limit, set to -1 to deactivate
+publish_marker_scale_backend: 0.5 # set to -1 to deactivate visualization of landmarks
+backend_only_use_corners: false
+backend_scale_stable_thresh: 0.07
+
+# For Loop Correction
+ransac3d_inlier_percent: 60
+
+# outlier rejection
+use_outlier_rejection: true
+outlier_rejection_px_threshold: 2.0
+
+# Zero Motion Detection
+backend_use_zero_motion_detection: false
+backend_zero_motion_check_n_frames: 10
+zero_motion_px_diff_threshold: 0.2
+zero_motion_ratio_moving_pixels_threshold: 0.1
+zero_motion_min_number_correspondences: 20
+zero_motion_max_features_to_check: 30
+zero_motion_sigma: 0.1
+
+# fixed_frame_rate: -1
+
+# Loop closing
+ceres_remove_marginalization_term_after_loop: true
+ceres_recalculate_imu_terms_after_loop: true
+
+##############################
+##### Loop Closing parameters #####
+##############################
+# Flag to enable/disable loop closing
+runlc: False
+# Name of the file which stores the BOW vocabulary #
+voc_name: voc_GEN_8X4.yml.gz
+# Data Extraction Threshold #
+alpha: 0.8
+# Loop Closure Detection Threshold #
+beta: 0.8
+# Number of past frames to ignore when looking for loop closures #
+frames_to_ignore: 100
+# Approach to use for scale retrieval in monocular case #
+# 1. Common Landmarks Method #
+# 2. Mixed Keypoints Method #
+scale_retrieval_approach: -1
+# Bag of Words match threshold #
+bow_thresh: 0.65
+# Geometric Verification Threshold i.e Minimum Percentage of Inliers #
+#gv_thresh: 40.0
+gv_thresh: 40.0
+# Minimum 3d matches needed for good loop closing #
+min_num_3d: 20
+# Distance threshold when matching ORB features #
+orb_dist_thresh: 300
+# Minimum percentage of matches in geometric verification #
+match_thresh: 0.15
+# use opengv for ransac during geometric verification
+use_opengv: true
+# Enable this option to log images and inlier matches between loop closure frames */
+enable_image_logging: false
+# Path to the folder where images will be locked. Make sure folder is already created */
+image_log_base_path: /tmp/loopclosure_log/
